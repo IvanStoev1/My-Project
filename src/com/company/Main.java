@@ -3,6 +3,7 @@ package com.company;
 import java.util.Scanner;
 
 public class Main {
+
     public static Scanner scanner = new Scanner(System.in);
     public static String text1 = scanner.nextLine();
     public static String text2 = scanner.nextLine();
@@ -12,9 +13,9 @@ public class Main {
 
     }
 
-    private static double getAverageWordLengthOfText1() {
+    private static float getAverageWordLengthOfText1() {
         int count = 0;
-        double sum = 0;
+        float sum = 0;
         String[] words = getPunctuationStrippedText1(text1);
         for (String word : words) {
             double wordLength = word.length();
@@ -22,7 +23,7 @@ public class Main {
             count++;
         }
 
-        double average = 0;
+        float average = 0;
         if (count > 0) {
             average = sum / count;
         }
@@ -32,11 +33,11 @@ public class Main {
     }
 
     public static String[] getPunctuationStrippedText1(String text1) {
-        String[] strippedInput = text1.split("\\s+");
-        return strippedInput;
+        String strippedText1 = text1.replaceAll("\\p{Punct}", "");
+        String[] strippedSpaces = strippedText1.split(" ");
+        return strippedSpaces;
 
     }
 
 }
-
 
