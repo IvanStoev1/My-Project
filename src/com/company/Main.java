@@ -35,9 +35,9 @@ public class Main {
     }
 
     public static String[] getStrippedText1(String text1) {
-        String[] strippedText1 = text1.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+        String strippedText1 = text1.replaceAll("\\p{Punct}", "");
 
-        return strippedText1;
+        return strippedText1.split(" ");
 
     }
 
@@ -51,7 +51,6 @@ public class Main {
             for (String word : words) {
                 currentWord = word;
             }
-
 
         }
 
