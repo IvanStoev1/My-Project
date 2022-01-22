@@ -15,98 +15,71 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int f1Number = 11;
-        int f2Number = 33;
-        int f3Number = 50;
-        double f4Number = 0.4;
-
-        float f1T1 = Float.parseFloat(getAverageWordLengthOfText1());
-        float f2T1 = Float.parseFloat(getTypeTokenRatioOfText1());
-        float f3T1 = Float.parseFloat(getHapaxLegomenaRatioOfText1());
-        float f4T1 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText1());
-
-        float f1T2 = Float.parseFloat(getAverageWordLengthOfText2());
-        float f2T2 = Float.parseFloat(getTypeTokenRatioOfText2());
-        float f3T2 = Float.parseFloat(getHapaxLegomenaRatioOfText2());
-        float f4T2 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText2());
-
-
         System.out.println("Text 1 Features");
-        System.out.println("Average word length: " + getAverageWordLengthOfText1());
-        System.out.println("Type-Token Ratio: " + getTypeTokenRatioOfText1());
-        System.out.println("Hapax Legomena Ratio: " + getHapaxLegomenaRatioOfText1());
-        System.out.println("Average number of words in a sentence: " + getAverageNumberOfWordsInASentenceForText1());
+        System.out.println("Average word length: " + getAverageWordLengthOfText(text1));
+        System.out.println("Type-Token Ratio: " + getTypeTokenRatioOfText(text1));
+        System.out.println("Hapax Legomena Ratio: " + getHapaxLegomenaRatioOfText(text1));
+        System.out.println("Average number of words in a sentence: " + getAverageNumberOfWordsInASentenceForText(text1));
 
         System.out.println(" ");
 
         System.out.println("Text 2 Features");
-        System.out.println("Average word length: " + getAverageWordLengthOfText2());
-        System.out.println("Type-Token Ratio: " + getTypeTokenRatioOfText2());
-        System.out.println("Hapax Legomena Ratio: " + getHapaxLegomenaRatioOfText2());
-        System.out.println("Average number of words in a sentence: " + getAverageNumberOfWordsInASentenceForText2());
+        System.out.println("Average word length: " + getAverageWordLengthOfText(text2));
+        System.out.println("Type-Token Ratio: " + getTypeTokenRatioOfText(text2));
+        System.out.println("Hapax Legomena Ratio: " + getHapaxLegomenaRatioOfText(text2));
+        System.out.println("Average number of words in a sentence: " + getAverageNumberOfWordsInASentenceForText(text2));
 
         System.out.println(" ");
 
-        DecimalFormat df = new DecimalFormat("#.###");
-        String similarity = df.format(abs(f1T1 - f1T2) * f1Number + abs(f2T1 - f2T2) * f2Number + abs(f3T1 - f3T2) * f3Number + abs(f4T1 - f4T2) * f4Number);
-        System.out.println("Similarity: " + similarity);
-
+        getSimilarity();
 
     }
 
     //Text 1
-    private static String getAverageWordLengthOfText1() {
-        int count = 0;
-        double sum = 0;
-        String[] words = getStrippedText1(text1);
+    private static String getAverageWordLengthOfText(String text) {
+        int allWords = 0;
+        double sumOfAllWords = 0;
+        String[] words = getStrippedText1(text);
         for (String word : words) {
             double wordLength = word.length();
-            sum += wordLength;
-            count++;
+            sumOfAllWords += wordLength;
+            allWords++;
         }
 
         double averageWordLength = 0;
-        if (count > 0) {
-            averageWordLength = sum / count;
+        if (allWords > 0) {
+            averageWordLength = sumOfAllWords / allWords;
         }
 
         DecimalFormat df = new DecimalFormat("#.###");
-
         return df.format(averageWordLength);
-
     }
 
-    public static String getTypeTokenRatioOfText1() {
+    public static String getTypeTokenRatioOfText(String text) {
 
         DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfUniqueWords() / getNumberOfAllWords());
-
+        return df.format(getNumberOfUniqueWords(text) / getNumberOfAllWords(text));
 
     }
 
-    public static String getHapaxLegomenaRatioOfText1() {
+    public static String getHapaxLegomenaRatioOfText(String text) {
 
         DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfNonRecurringWords() / getNumberOfAllWords());
+        return df.format(getNumberOfNonRecurringWords(text) / getNumberOfAllWords(text));
 
     }
 
+    public static String getAverageNumberOfWordsInASentenceForText(String text) {
 
-    public static String getAverageNumberOfWordsInASentenceForText1() {
-
-        String[] words = text1.split("");
-        int allSentences = 0;
+        String[] words = text.split("");
+        int allSentences = 1;
 
 
         for (String word : words) {
             if (word.equals("?")) {
-
                 allSentences++;
 
             } else if (word.equals(".")) {
-
                 allSentences++;
 
             } else if (word.equals("!")) {
@@ -116,15 +89,15 @@ public class Main {
         }
 
         DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfAllWords() / allSentences);
+        return df.format(getNumberOfAllWords(text) / allSentences);
 
     }
 
-    public static float getNumberOfNonRecurringWords() {
-        String[] words = getStrippedText1(text1);
+    public static float getNumberOfNonRecurringWords(String text) {
+
+        String[] words = getStrippedText1(text);
         int numberOfNonRecurringWords = 0;
-        int counter = 1;
+        int counter = 0;
 
         for (int i = 0; i < words.length; i++) {
             for (int j = i + 1; j < words.length; j++) {
@@ -134,6 +107,7 @@ public class Main {
                 }
 
             }
+
             if (words[i] != "0") {
                 if (counter == 1) {
                     numberOfNonRecurringWords++;
@@ -146,22 +120,16 @@ public class Main {
         }
 
         return numberOfNonRecurringWords;
-
     }
 
-    public static float getNumberOfUniqueWords() {
+    public static float getNumberOfUniqueWords(String text) {
 
-        String[] words = getPunctuationStrippedText1(text1).split(" ");
+        String[] words = getPunctuationStrippedText(text).split(" ");
         List aList = new ArrayList();
-        int count;
 
         for (int i = 0; i < words.length; i++) {
-            count = 1;
             for (int j = i + 1; j < words.length; j++) {
                 if (words[i].equalsIgnoreCase(words[j])) {
-
-                    count++;
-
                     words[j] = "";
                 }
 
@@ -176,14 +144,12 @@ public class Main {
         }
 
         return aList.size();
-
     }
 
-    public static int getNumberOfAllWords() {
+    public static int getNumberOfAllWords(String text) {
 
         int allWords = 0;
-        String text = getPunctuationStrippedText1(text1);
-        String[] words = text.split(" ");
+        String[] words = getStrippedText1(text);
 
         for (String word : words) {
 
@@ -191,173 +157,39 @@ public class Main {
         }
 
         return allWords;
-
     }
 
-    public static String getPunctuationStrippedText1(String text1) {
+    public static String getPunctuationStrippedText(String text) {
 
-        return text1.replaceAll("\\p{Punct}", "");
-
+        return text.replaceAll("\\p{Punct}", "");
     }
 
-    public static String[] getStrippedText1(String text1) {
-        String strippedText1 = text1.replaceAll("\\p{Punct}", "");
+    public static String[] getStrippedText1(String text) {
 
+        String strippedText1 = getPunctuationStrippedText(text);
         return strippedText1.split(" ");
-
     }
 
-    //Text 2
-    private static String getAverageWordLengthOfText2() {
-        int count = 0;
-        double sum = 0;
-        String[] words = getStrippedText1(text2);
-        for (String word : words) {
+    public static void getSimilarity() {
 
-            double wordLength = word.length();
-            sum += wordLength;
-            count++;
-        }
+        float feature1Weight = 11;
+        float feature2Weight = 33;
+        float feature3Weight = 50;
+        double feature4Weight = 0.4;
 
-        double averageWordLength = 0;
-        if (count > 0) {
-            averageWordLength = sum / count;
-        }
+        float feature1Text1 = Float.parseFloat(getAverageWordLengthOfText(text1));
+        float feature2Text1 = Float.parseFloat(getTypeTokenRatioOfText(text1));
+        float feature3Text1 = Float.parseFloat(getHapaxLegomenaRatioOfText(text1));
+        float feature4Text1 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText(text1));
+
+        float feature1Text2 = Float.parseFloat(getAverageWordLengthOfText(text2));
+        float feature2Text2 = Float.parseFloat(getTypeTokenRatioOfText(text2));
+        float feature3Text2 = Float.parseFloat(getHapaxLegomenaRatioOfText(text2));
+        float feature4Text2 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText(text2));
 
         DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(averageWordLength);
-
-    }
-
-    public static String getTypeTokenRatioOfText2() {
-
-        DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfUniqueWordsForText2() / getNumberOfAllWordsForText2());
-
-
-    }
-
-    public static String getHapaxLegomenaRatioOfText2() {
-
-        DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfNonRecurringWordsForText2() / getNumberOfAllWordsForText2());
-
-    }
-
-
-    public static String getAverageNumberOfWordsInASentenceForText2() {
-
-        String[] words = text1.split("");
-        int allSentences = 0;
-
-
-        for (String word : words) {
-            if (word.equals("?")) {
-
-                allSentences++;
-
-            } else if (word.equals(".")) {
-
-                allSentences++;
-
-            } else if (word.equals("!")) {
-                allSentences++;
-
-            }
-
-        }
-
-        DecimalFormat df = new DecimalFormat("#.###");
-
-        return df.format(getNumberOfAllWordsForText2() / allSentences);
-
-    }
-
-    public static float getNumberOfNonRecurringWordsForText2() {
-        String[] words = getStrippedText2(text2);
-        int counter = 1;
-        int numberOfNonRecurringWords = 0;
-
-        for (int i = 0; i < words.length; i++) {
-            for (int j = i + 1; j < words.length; j++) {
-                if (words[i].equals(words[j])) {
-                    counter += 1;
-                    words[j] = "0";
-                }
-
-            }
-            if (words[i] != "0") {
-                if (counter == 1) {
-                    numberOfNonRecurringWords++;
-                }
-
-                counter = 1;
-            }
-
-        }
-
-        return numberOfNonRecurringWords;
-
-    }
-
-    public static float getNumberOfUniqueWordsForText2() {
-
-        String[] words = getPunctuationStrippedText2(text2).split(" ");
-        List aList = new ArrayList();
-        int count;
-
-        for (int i = 0; i < words.length; i++) {
-            count = 1;
-            for (int j = i + 1; j < words.length; j++) {
-                if (words[i].equalsIgnoreCase(words[j])) {
-
-                    count++;
-
-                    words[j] = "";
-                }
-
-            }
-
-            if (words[i].equals("")) {
-                break;
-            }
-
-            aList.add(words[i]);
-
-        }
-
-        return aList.size();
-
-    }
-
-    public static int getNumberOfAllWordsForText2() {
-
-        int allWords = 0;
-        String text = getPunctuationStrippedText2(text2);
-        String[] words = text.split(" ");
-
-        for (String word : words) {
-
-            allWords++;
-        }
-
-        return allWords;
-
-    }
-
-    public static String getPunctuationStrippedText2(String text2) {
-
-        return text2.replaceAll("\\p{Punct}", "");
-
-    }
-
-    public static String[] getStrippedText2(String text2) {
-        String strippedText1 = text2.replaceAll("\\p{Punct}", "");
-
-        return strippedText1.split(" ");
+        String similarity = df.format(abs(feature1Text1 - feature1Text2) * feature1Weight + abs(feature2Text1 - feature2Text2) * feature2Weight + abs(feature3Text1 - feature3Text2) * feature3Weight + abs(feature4Text1 - feature4Text2) * feature4Weight);
+        System.out.println("Similarity: " + similarity);
 
     }
 
