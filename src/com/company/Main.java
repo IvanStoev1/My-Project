@@ -15,20 +15,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int F1Number = 11;
-        int F2Number = 33;
-        int F3Number = 50;
-        double F4Number = 0.4;
+        int f1Number = 11;
+        int f2Number = 33;
+        int f3Number = 50;
+        double f4Number = 0.4;
 
-        float F1T1 = Float.parseFloat(getAverageWordLengthOfText1());
-        float F2T1 = Float.parseFloat(getTypeTokenRatioOfText1());
-        float F3T1 = Float.parseFloat(getHapaxLegomenaRatioOfText1());
-        float F4T1 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText1());
+        float f1T1 = Float.parseFloat(getAverageWordLengthOfText1());
+        float f2T1 = Float.parseFloat(getTypeTokenRatioOfText1());
+        float f3T1 = Float.parseFloat(getHapaxLegomenaRatioOfText1());
+        float f4T1 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText1());
 
-        float F1T2 = Float.parseFloat(getAverageWordLengthOfText2());
-        float F2T2 = Float.parseFloat(getTypeTokenRatioOfText2());
-        float F3T2 = Float.parseFloat(getHapaxLegomenaRatioOfText2());
-        float F4T2 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText2());
+        float f1T2 = Float.parseFloat(getAverageWordLengthOfText2());
+        float f2T2 = Float.parseFloat(getTypeTokenRatioOfText2());
+        float f3T2 = Float.parseFloat(getHapaxLegomenaRatioOfText2());
+        float f4T2 = Float.parseFloat(getAverageNumberOfWordsInASentenceForText2());
 
 
         System.out.println("Text 1 Features");
@@ -48,8 +48,8 @@ public class Main {
         System.out.println(" ");
 
         DecimalFormat df = new DecimalFormat("#.###");
-        String simalirity = df.format(abs(F1T1 - F1T2) * F1Number + abs(F2T1 - F2T2) * F2Number + abs(F3T1 - F3T2) * F3Number + abs(F4T1 - F4T2) * F4Number);
-        System.out.println("Similarity: " + simalirity);
+        String similarity = df.format(abs(f1T1 - f1T2) * f1Number + abs(f2T1 - f2T2) * f2Number + abs(f3T1 - f3T2) * f3Number + abs(f4T1 - f4T2) * f4Number);
+        System.out.println("Similarity: " + similarity);
 
 
     }
@@ -265,6 +265,7 @@ public class Main {
 
             } else if (word.equals("!")) {
                 allSentences++;
+
             }
 
         }
@@ -299,19 +300,6 @@ public class Main {
         }
 
         return numberOfNonRecurringWords;
-
-    }
-
-    public static String getPunctuationStrippedText2(String text2) {
-
-        return text2.replaceAll("\\p{Punct}", "");
-
-    }
-
-    public static String[] getStrippedText2(String text2) {
-        String strippedText1 = text2.replaceAll("\\p{Punct}", "");
-
-        return strippedText1.split(" ");
 
     }
 
@@ -357,6 +345,19 @@ public class Main {
         }
 
         return allWords;
+
+    }
+
+    public static String getPunctuationStrippedText2(String text2) {
+
+        return text2.replaceAll("\\p{Punct}", "");
+
+    }
+
+    public static String[] getStrippedText2(String text2) {
+        String strippedText1 = text2.replaceAll("\\p{Punct}", "");
+
+        return strippedText1.split(" ");
 
     }
 
