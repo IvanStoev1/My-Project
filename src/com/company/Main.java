@@ -35,7 +35,6 @@ public class Main {
 
     }
 
-    //Text 1
     private static String getAverageWordLengthOfText(String text) {
         int allWords = 0;
         double sumOfAllWords = 0;
